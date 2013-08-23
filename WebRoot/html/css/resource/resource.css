@@ -1,0 +1,42 @@
+fieldset input,fieldset select{
+    width: 92% !important;
+}
+.fleft{
+    display: block;
+    width:48%;
+    float:left;
+    margin:0 3% 1% 0;
+}
+.search{
+    padding: 0 12px;
+    margin: 5px;
+    color:#000 !important;
+    float: right;
+}
+.fright{
+    display: block;
+    width:48%;
+    float:left;
+    margin:0 0 1% 0;
+}
+.the-icons li {
+    list-style-type: none !important;
+    cursor: pointer;
+    line-height: 32px;
+}
+.the-icons li [class^="icon-"], .the-icons li [class*=" icon-"] {
+    width: 32px;
+    font-size: 14px;
+}
+#iconDiv li{
+    list-style-type: none !important;
+    cursor: pointer;
+    line-height: 32px;
+    padding-left: 10px;
+}
+footer{
+    clear: both;
+}
+#main .module header h3.tabs_involved{
+    width:40% !important;
+}

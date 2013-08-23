@@ -1,0 +1,133 @@
+html,body {
+	margin: 0;
+	padding: 0;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 12px;
+	overflow: hidden;
+	line-height: 20px;
+	color: #333;
+}
+
+body {
+	height: 100%;
+	background: #2C4762 url('/html/images/bg1.jpg') no-repeat;
+	margin: 0px;
+	padding: 0 0 50px 0;
+}
+
+div.devider {
+	float: left;
+	position: relative;
+	margin: 1px;
+	margin-right: 3px;
+	margin-top: 3px;
+	margin-left: 3px;
+	width: 0px;
+	height: 18px;
+	border-left: 1px solid rgb(0, 0, 0);
+	border-left: 1px solid rgba(0, 0, 0, 0.5);
+	border-right: 1px solid rgb(245, 245, 245);
+	border-right: 1px solid rgba(255, 255, 255, 0.5);
+	background-color: transparent;
+}
+
+table.fixmenu {
+	width: 100%;
+	min-width: 600px;
+	height: 27px;
+	margin: 0 auto;
+	border: 1px solid #8D8D8D;
+	background-color: rgb(255, 255, 255);
+	background-color: rgba(255, 255, 255, 0.3);
+	border-collapse: separate;
+	border-color: gray;
+}
+
+table.fixmenu td {
+	border-top: 1px solid rgb(245, 245, 245);
+	border-top: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+tr {
+	display: table-row;
+	vertical-align: inherit;
+	border-color: inherit;
+}
+
+tbody {
+	display: table-row-group;
+	vertical-align: middle;
+	border-color: inherit;
+}
+
+.left li {
+	position: relative;
+	float: left;
+	white-space: nowrap;
+	text-align: left;
+	cursor: default;
+}
+
+.right li {
+	position: relative;
+	float: right;
+	white-space: nowrap;
+	text-align: left;
+	cursor: default;
+}
+
+.left li div:hover,.right li div:hover {
+	background: black;
+	color: white;
+}
+
+.left li div:active,.right li div:active {
+	background-color: rgb(255, 255, 255);
+	background-color: rgba(255, 255, 255, 0.2);
+	color: black;
+}
+
+.left li div {
+	float: left;
+}
+
+.right li div {
+	float: right;
+}
+
+.inner {
+	font-weight: bold;
+	font-family: HelveticaNeue, Helvetica, Arial, Verdana, sans-serif;
+	font-size: 12px;
+	padding: 1px 7px 0 7px;
+}
+
+.left {
+	float: left;
+	margin: 3px;
+}
+
+.right {
+	float: right;
+	margin: 3px;
+}
+
+td div ul {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	z-index: 300;
+}
+
+.dock {
+	font-size:12px;
+	margin-top: 40px;
+	margin-left: 10px;
+	padding: 5px 15px;
+	filter: alpha(opacity = 85); /*IE滤镜，透明度50%*/
+	-moz-opacity: 0.85; /*Firefox私有，透明度50%*/
+	opacity: 0.85; /*其他，透明度50%*/
+}
+.dock-icon{
+	clear:both;
+}
