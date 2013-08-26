@@ -9,15 +9,17 @@
 <article id="res_article" class="module width_full">
 <header>
     <h3 class="tabs_involved">资源列表</h3>
-    <a class="btn search" href="#" onclick="find(this);"><i class="icon-plus-sign"></i>添加</a>
+    <a id="addbtn" class="btn search" href="#" onclick="find(this);"><i class="icon-plus-sign"></i>添加</a>
     <a id="sub" class="btn search" href="#" onclick="sub();" style="display: none;"><i class="icon-ok"></i>提交</a>
+
     <div id="res_search" class="input-append" style="float: right; margin: 5px;">
-        <input class="span2" id="inputIcon" type="text" placeholder="请输入资源名字">
-        <span class="add-on"><i class="icon-search" style="cursor: pointer;"></i></span>
+        <input class="span2" id="selName" type="text" placeholder="请输入资源名字" value="">
+        <span class="add-on"><i id="sel" class="icon-search" style="cursor: pointer;"></i></span>
     </div>
 </header>
 <div>
 <form style="display: none;" id="res_form" type="post" action="/sys/resource/add" class="module_content">
+<input type="hidden" id="resId" name="resId" value=""/>
 <fieldset class="fleft">
     <label>资源名称</label>
     <input id="resName" name="resName" type="text">
@@ -31,7 +33,7 @@
     <select id="resParentId" name="resParentId">
         <option value="">请选择</option>
         <option value="0|0">根节点</option>
-        <c:forEach var="res" items="${list}">
+        <c:forEach var="res" items="${allRes}">
             <c:if test="${res.is_module!=0}">
                 <option value="${res.id}|${res.is_module}">${res.name}</option>
             </c:if>
@@ -59,7 +61,9 @@
 <fieldset id="ff_icon" style="display: none;">
     <label>资源图片(点击选择)</label>
     <input id="resIcon" name="resIcon" type="text" value="" disabled="disabled"/>
-    <ul class="the-icons" id="iconDiv"><li><i class="icon-edit"></i> icon-edit</li></ul>
+    <ul class="the-icons" id="iconDiv">
+        <li><i class="icon-edit"></i> icon-edit</li>
+    </ul>
 </fieldset>
 <fieldset id="fset_icons" style="display: none;">
     <section id="icons-web-app" class="row">
@@ -258,14 +262,89 @@
             <td><c:if test="${res.auth==0}">无权限</c:if>
                 <c:if test="${res.auth==1}">读权限</c:if>
                 <c:if test="${res.auth==2}">写权限</c:if></td>
-            <td><input type="image" src="/html/images/icn_edit.png" title="Edit">
-                <input type="image" src="/html/images/icn_trash.png" title="Trash"></td>
+            <td><input type="image" src="/html/images/icn_edit.png"
+                       title="Edit" onclick="mod('${res.id}','${res.name}','${res.url}',
+                    '${res.icon}','${res.parent_id}','${res.is_module}','${res.auth}');">
+                <input type="image" src="/html/images/icn_trash.png" title="Trash" onclick="del('${res.id}');"></td>
         </tr>
     </c:forEach>
     </tbody>
 </table>
 <footer>
+    <div id="pager" class="pagination pagination-right" style="margin: 0 45px;">
+        <ul>
+           <c:if test="${page.current==1}">
+               <li class="disabled"><a href="#">«</a></li>
+           </c:if>
+            <c:if test="${page.current!=1}">
+                <li><a href="#" data="${page.current-1}">«</a></li>
+            </c:if>
+           <c:choose>
+               <c:when test="${page.current<=5}">
+                   <c:if test="${page.pages>10}">
+                       <c:forEach var="i" begin="1" end="10">
+                           <c:if test="${page.current==i}">
+                               <li class="active"><a href="#">${i}</a></li>
+                           </c:if>
+                           <c:if test="${page.current!=i}">
+                               <li><a href="#">${i}</a></li>
+                           </c:if>
+                       </c:forEach>
+                   </c:if>
+                   <c:if test="${page.pages<=10}">
+                       <c:forEach var="i" begin="1" end="${page.pages}">
+                           <c:if test="${page.current==i}">
+                               <li class="active"><a href="#">${i}</a></li>
+                           </c:if>
+                           <c:if test="${page.current!=i}">
+                               <li><a href="#">${i}</a></li>
+                           </c:if>
+                       </c:forEach>
+                   </c:if>
+               </c:when>
+           </c:choose>
+           <c:choose>
+               <c:when test="${page.current+5>page.pages && page.pages>10}">
+                   <c:forEach var="i" begin="${page.pages-9}" end="${page.pages}">
+                       <c:if test="${page.current==i}">
+                           <li class="active"><a href="#">${i}</a></li>
+                       </c:if>
+                       <c:if test="${page.current!=i}">
+                           <li><a href="#">${i}</a></li>
+                       </c:if>
+                   </c:forEach>
+               </c:when>
+           </c:choose>
+            <c:choose>
+                <c:when test="${page.current>5&&page.current<=page.pages-5}">
+                    <c:forEach var="i" begin="${page.current-4}" end="${page.current+5}">
+                        <c:if test="${page.current==i}">
+                            <li class="active"><a href="#">${i}</a></li>
+                        </c:if>
+                        <c:if test="${page.current!=i}">
+                            <li><a href="#">${i}</a></li>
+                        </c:if>
+                    </c:forEach>
+                </c:when>
+            </c:choose>
+            <c:if test="${page.current==page.pages||page.pages==0}">
+                <li class="disabled"><a href="#">»</a></li>
+            </c:if>
+            <c:if test="${page.current!=page.pages&&page.pages!=0}">
+                <li><a href="#" data="${page.current+1}">»</a></li>
+            </c:if>
+        </ul>
+        <div style="float: left;margin-top: 5px;">当前:${page.current}/${page.pages}页,共有数据:${page.total}条</div>
+    </div>
 </footer>
 </article>
+<div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-body">
+
+    </div>
+    <div class="modal-footer">
+        <button class="btn" data-dismiss="modal" aria-hidden="true" onclick="close();">关闭</button>
+    </div>
+</div>
 </body>
 </html>

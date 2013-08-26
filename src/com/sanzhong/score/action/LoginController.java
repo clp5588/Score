@@ -1,9 +1,6 @@
 package com.sanzhong.score.action;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -75,7 +72,7 @@ public class LoginController {
     public String index(HttpServletRequest request) {
 		Subject currentUser = SecurityUtils.getSubject();
 		User user = (User) currentUser.getPrincipal();
-		Map<Resource,List<Resource>> resourceMap = new HashMap<Resource,List<Resource>>();
+		Map<Resource,Set<Resource>> resourceMap = new HashMap<Resource,Set<Resource>>();
 		for (Role role : user.getRoleList()) {
 			for (Permission permission : role.getPermissions()) {
                 Resource parentResource = ResourceListener.getResourceMap().get(permission.getResource().getParent_id());
@@ -83,7 +80,7 @@ public class LoginController {
                 if(resourceMap.containsKey(parentResource)){
                     resourceMap.get(parentResource).add(resource);
                 }else{
-                    List<Resource> resourceList = new ArrayList<Resource>();
+                    Set<Resource> resourceList = new HashSet<Resource>();
                     resourceList.add(resource);
                     resourceMap.put(parentResource,resourceList);
                 }

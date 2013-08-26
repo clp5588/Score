@@ -22,7 +22,7 @@ height: 20px;
 }
 
 a:link, a:visited {
-color: #77BACE;
+color: blue;
 text-decoration: none;
 }
 
@@ -34,7 +34,7 @@ text-decoration: underline;
 /* Header */
 
 header#header {
-height: 55px;
+height: 43px;
 width: 100%;
 background: #222222 url(../images/header_bg.png) repeat-x;
 }
@@ -45,11 +45,11 @@ margin: 0;
 font-size: 22px;
 display: block;
 width: 23%;
-height: 55px;
+height: 43px;
 font-weight: normal;
 text-align: left;
 text-indent: 1.8%;
-line-height: 55px;
+line-height: 43px;
 color: #fff;
 text-shadow: 0 -1px 0 #000;
 }
@@ -382,8 +382,8 @@ margin: 8px 20px;
 .module {
 border: 1px solid #9BA0AF;
 width: 100%;
-margin: 20px 3% 0 3%;
-margin-top: 20px;
+margin: 10px 3% 0 3%;
+margin-top: 10px;
 -webkit-border-radius: 5px;
 -moz-border-radius: 5px;
 border-radius: 5px;

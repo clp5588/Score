@@ -30,4 +30,6 @@ public abstract class BaseDAO extends JdbcTemplate{
 			RowMapper rowMapper) throws DataAccessException {
 		return (List) query(sql, new SplitPageResultSetExtractor(rowMapper,startRow, rowsCount));
 	}
+
+
 }
