@@ -37,84 +37,43 @@ function sub(){
             }
         }
         var resId=$("#resId").val();
+        var url,mess_success,mess_error;
         if(resId!=""){
-            $.ajax({
-                url:"/sys/resource/edit.json",
-                data:{
-                    resId:resId,
-                    resName:resName,
-                    resUrl:resUrl,
-                    resIcon:resIcon,
-                    resParentId:resParentId.split("|")[0],
-                    resType:resType,
-                    resAuth:resAuth
-                },
-                dataType:"json",
-                type:"post",
-                success:function(data){
-                    if(data=="success"){
-                        $.globalMessenger().post({
-                            message: "修改成功",
-                            type: 'info',
-                            hideAfter:1.5
-                        });
-                    }else{
-                        $.globalMessenger().post({
-                            message: "修改失败",
-                            type: 'error',
-                            hideAfter:1.5
-                        });
-                    }
-                    $("#main").load("/sys/resource/manage.json");
-                },
-                error:function(){
-                    $.globalMessenger().post({
-                        message: "修改失败",
-                        type: 'error',
-                        hideAfter:1.5
-                    });
-                    $("#main").load("/sys/resource/manage.json");
-                }
-            });
+            url = "/sys/resource/edit.json";
+            mess_success="修改成功";
+            mess_error="修改成功";
         }else{
-            $.ajax({
-                url:"/sys/resource/add.json",
-                data:{
-                    resName:resName,
-                    resUrl:resUrl,
-                    resIcon:resIcon,
-                    resParentId:resParentId.split("|")[0],
-                    resType:resType,
-                    resAuth:resAuth
-                },
-                dataType:"json",
-                type:"post",
-                success:function(data){
-                    if(data=="success"){
-                        $.globalMessenger().post({
-                            message: "添加成功",
-                            type: 'info',
-                            hideAfter:1.5
-                        });
-                    }else{
-                        $.globalMessenger().post({
-                            message: "添加失败",
-                            type: 'info',
-                            hideAfter:1.5
-                        });
-                    }
-                    $("#main").load("/sys/resource/manage.json");
-                },
-                error:function(){
-                    $.globalMessenger().post({
-                        message: "添加失败",
-                        type: 'error',
-                        hideAfter:1.5
-                    });
-                    $("#main").load("/sys/resource/manage.json");
-                }
-            });
+            url = "/sys/resource/add.json";
+            mess_success="添加成功";
+            mess_error="添加成功";
+            resId="";
         }
+        $.ajax({
+            url:url,
+            data:{
+                resId:resId,
+                resName:resName,
+                resUrl:resUrl,
+                resIcon:resIcon,
+                resParentId:resParentId.split("|")[0],
+                resType:resType,
+                resAuth:resAuth
+            },
+            dataType:"json",
+            type:"post",
+            success:function(data){
+                if(data=="success"){
+                    message(mess_success,"info");
+                }else{
+                    message(mess_error,"error");
+                }
+                $("#main").load("/sys/resource/manage.json");
+            },
+            error:function(){
+                message(mess_error,"error");
+                $("#main").load("/sys/resource/manage.json");
+            }
+        });
     }
 }
 $(function(){
@@ -203,13 +162,10 @@ $(function(){
         },
         errorPlacement : function(error, element) {
             var id = $(element).attr("id");
-            $.globalMessenger().post({
-                message : $(error).html(),
-                type : "error",
-                id : id
-            });
+            message($(error).html(),"error",id);
         }
     });
+    //分页
     $("#pager ul li").click(function(){
         if($(this).hasClass("active")||$(this).hasClass("disabled")){
             return;
@@ -220,6 +176,7 @@ $(function(){
         }
         $("#main").load('/sys/resource/manage.json',{current:page});
     });
+    //查询
     $("#sel").click(function(){
         var resName = $("#selName").val();
         $("#main").load('/sys/resource/manage.json',{resName:resName});
@@ -233,26 +190,14 @@ function del(id){
         type:'post',
         success:function(data){
             if(data=="success"){
-                $.globalMessenger().post({
-                    message: "删除成功",
-                    type: 'info',
-                    hideAfter:1.5
-                });
+                message("删除成功","info");
             }else{
-                $.globalMessenger().post({
-                    message: "删除失败",
-                    type: 'error',
-                    hideAfter:1.5
-                });
+                message("删除失败","error");
             }
             $("#main").load("/sys/resource/manage.json");
         },
         error:function(){
-            $.globalMessenger().post({
-                message: "删除失败",
-                type: 'error',
-                hideAfter:1.5
-            });
+            message("删除失败","error");
             $("#main").load("/sys/resource/manage.json");
         }
     })
@@ -281,4 +226,20 @@ function mod(id,name,url,icon,parentId,is_module,auth){
         $("#fset_icons").toggle();
         $(this).show();
     });
+}
+function message(mess,type,id){
+    if(id!=null||id!=""){
+        $.globalMessenger().post({
+            message: mess,
+            type: type,
+            hideAfter:1.5,
+            id:id
+        });
+    }else{
+        $.globalMessenger().post({
+            message: mess,
+            type: type,
+            hideAfter:1.5
+        });
+    }
 }

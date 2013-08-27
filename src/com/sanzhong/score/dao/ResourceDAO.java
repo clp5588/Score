@@ -1,11 +1,8 @@
 package com.sanzhong.score.dao;
 
 import com.sanzhong.score.common.Page;
-import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.stereotype.Component;
-
 import com.sanzhong.score.pojo.Resource;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
